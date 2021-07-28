@@ -182,9 +182,15 @@ export async function sandbox(
               )
             )
           const root = portal.shadowRoot
-          return root.querySelector(
+          const frame = root.querySelector(
             '[data-nextjs-codeframe], [data-nextjs-terminal]'
-          ).innerText
+          )
+          if (!frame) {
+            throw new Error(
+              `Codeframe or terminal not found in next.js errors container:\n${root.innerHTML}`
+            )
+          }
+          return frame.innerText
         })
 
         if (includeHeader) {
